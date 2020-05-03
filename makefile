@@ -6,6 +6,6 @@ client:client.o
 server.o:server.cpp
 	g++ -g -c server.cpp
 client.o:client.cpp
-	g++ -g -lstdc++ client.cpp
+	g++ -g -c client.cpp
 clean:all
 	rm all
