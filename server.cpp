@@ -29,7 +29,6 @@ int main(int argc,char** argv){
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(6666);
-    //if(inet_aton(""))
     //bind the socket
     if(bind(listenfd,(struct sockaddr*)&servaddr,sizeof(servaddr)) == -1){
         std::cout<<"bind socket error:"<<strerror(errno)<<"(error:"<<errno<<")\n";
@@ -43,11 +42,12 @@ int main(int argc,char** argv){
     std::cout<<"==========waiting for client's request================\n";
     time_t rawtime;
     struct tm *ptminfo;
-    time(&rawtime);
-    ptminfo = localtime(&rawtime);
     //waiting
     while(1){
+        time(&rawtime);
+        ptminfo = localtime(&rawtime);
         if((connfd = accept(listenfd,(struct sockaddr*)NULL,NULL))== -1){
+            
             std::cout<<"accept socket error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
             continue;
         }

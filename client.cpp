@@ -36,9 +36,9 @@ int main(int argc,char**argv){
     //set time
     time_t rawtime;
     struct tm *ptminfo;
-    time(&rawtime);
-    ptminfo = localtime(&rawtime);
     while(1){
+        time(&rawtime);
+        ptminfo = localtime(&rawtime);
         std::cout<<ptminfo->tm_year + 1900<<"/"<<ptminfo->tm_mon + 1<<"/"<<ptminfo->tm_mday<<" "<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<"\t\n";
         fgets(sendline,4096,stdin);
         if(send(sockfd,sendline,strlen(sendline),0) < 0){
@@ -46,7 +46,6 @@ int main(int argc,char**argv){
             return 0;
         } 
     }
-
     close(sockfd);
     return 0;
 }
