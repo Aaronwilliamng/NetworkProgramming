@@ -6,7 +6,7 @@
 
 ### DEMO:
 
-**功能**: 通过client向server发送消息, server接收消息并输出
+**功能**: 通过client(图中Linux ubuntu主机)向server(图中MacOS主机)发送消息, server接收消息并输出
 
 ![1-1](image/1/1.png)
 
