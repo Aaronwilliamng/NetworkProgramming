@@ -16,7 +16,7 @@ int main(int argc,char** argv){
     char buff[4096];
     int n;
     if((listenfd = socket(AF_INET,SOCK_STREAM,0)) == -1){
-        //strerrno(errno):print error information;
+        //strerrno(errno):print error information
         //errno:error code
         std::cout<<"create socket error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
         return 0;
@@ -44,16 +44,18 @@ int main(int argc,char** argv){
     struct tm *ptminfo;
     //waiting
     while(1){
-        time(&rawtime);
-        ptminfo = localtime(&rawtime);
         if((connfd = accept(listenfd,(struct sockaddr*)NULL,NULL))== -1){
-            
             std::cout<<"accept socket error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
             continue;
         }
-        n = recv(connfd,buff,MAXLINE,0);
-        buff[n] = '\0';//no '\0' at the end of buff,we need to add it manually
-        std::cout<<ptminfo->tm_year + 1900<<"/"<<ptminfo->tm_mon + 1<<"/"<<ptminfo->tm_mday<<" "<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<":"<<buff<<"\n";
+        while(1){
+            time(&rawtime);
+            ptminfo = localtime(&rawtime);    
+            n = recv(connfd,buff,MAXLINE,0);
+            buff[n] = '\0';//no '\0' at the end of buff,we need to add it manually
+            std::cout<<ptminfo->tm_year + 1900<<"/"<<ptminfo->tm_mon + 1<<"/"<<ptminfo->tm_mday<<" "<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<":"<<buff<<"\n";
+            //std::cout<<buff<<"\n";
+        }
         close(connfd);
     }
     close(listenfd);

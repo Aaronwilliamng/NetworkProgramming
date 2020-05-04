@@ -37,10 +37,10 @@ int main(int argc,char**argv){
     time_t rawtime;
     struct tm *ptminfo;
     while(1){
+        fgets(sendline,4096,stdin);
         time(&rawtime);
         ptminfo = localtime(&rawtime);
         std::cout<<ptminfo->tm_year + 1900<<"/"<<ptminfo->tm_mon + 1<<"/"<<ptminfo->tm_mday<<" "<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<"\t\n";
-        fgets(sendline,4096,stdin);
         if(send(sockfd,sendline,strlen(sendline),0) < 0){
             std::cout<<"send message error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
             return 0;
