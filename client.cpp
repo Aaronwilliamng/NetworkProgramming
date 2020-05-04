@@ -32,12 +32,15 @@ int main(int argc,char**argv){
         std::cout<<"connect error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
         return 0;
     }
-    std::cout<<"send message to server\n";
-    fgets(sendline,4096,stdin);
-    if(send(sockfd,sendline,strlen(sendline),0) < 0){
-        std::cout<<"send message error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
-        return 0;
-    } 
+    while(1){
+        std::cout<<"send message to server\n";
+        fgets(sendline,4096,stdin);
+        if(send(sockfd,sendline,strlen(sendline),0) < 0){
+            std::cout<<"send message error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
+            return 0;
+        } 
+    }
+
     close(sockfd);
     return 0;
 }
