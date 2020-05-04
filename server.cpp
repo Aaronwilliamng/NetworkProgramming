@@ -7,6 +7,7 @@
 #include<sys/types.h>
 #include<netinet/in.h>
 #include<unistd.h>
+#include<ctime>
 //using namespace std;
 #define MAXLINE 4096
 int main(int argc,char** argv){
@@ -28,6 +29,7 @@ int main(int argc,char** argv){
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(6666);
+    //if(inet_aton(""))
     //bind the socket
     if(bind(listenfd,(struct sockaddr*)&servaddr,sizeof(servaddr)) == -1){
         std::cout<<"bind socket error:"<<strerror(errno)<<"(error:"<<errno<<")\n";
@@ -39,6 +41,10 @@ int main(int argc,char** argv){
         return 0;
     }    
     std::cout<<"==========waiting for client's request================\n";
+    time_t rawtime;
+    struct tm *ptminfo;
+    time(&rawtime);
+    ptminfo = localtime(&rawtime);
     //waiting
     while(1){
         if((connfd = accept(listenfd,(struct sockaddr*)NULL,NULL))== -1){
@@ -47,7 +53,7 @@ int main(int argc,char** argv){
         }
         n = recv(connfd,buff,MAXLINE,0);
         buff[n] = '\0';//no '\0' at the end of buff,we need to add it manually
-        std::cout<<"receive message from client:"<<buff<<"\n";
+        std::cout<<ptminfo->tm_year + 1900<<ptminfo->tm_mon + 1<<ptminfo->tm_mday<<ptminfo->tm_hour<<ptminfo->tm_min<<ptminfo->tm_sec<<":"<<buff<<"\n";
         close(connfd);
     }
     close(listenfd);

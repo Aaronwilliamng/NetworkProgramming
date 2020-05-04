@@ -8,6 +8,7 @@
 #include<netinet/in.h>
 #include<arpa/inet.h>
 #include<unistd.h>
+#include<ctime>
 #define MAXLINE 4096
 int main(int argc,char**argv){
     int sockfd,n;
@@ -32,8 +33,13 @@ int main(int argc,char**argv){
         std::cout<<"connect error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
         return 0;
     }
+    //set time
+    time_t rawtime;
+    struct tm *ptminfo;
+    time(&rawtime);
+    ptminfo = localtime(&rawtime);
     while(1){
-        std::cout<<"send message to server\n";
+        std::cout<<ptminfo->tm_year + 1900<<ptminfo->tm_mon + 1<<ptminfo->tm_mday<<ptminfo->tm_hour<<ptminfo->tm_min<<ptminfo->tm_sec<<":\n";
         fgets(sendline,4096,stdin);
         if(send(sockfd,sendline,strlen(sendline),0) < 0){
             std::cout<<"send message error:"<<strerror(errno)<<"(errno:"<<errno<<")\n";
