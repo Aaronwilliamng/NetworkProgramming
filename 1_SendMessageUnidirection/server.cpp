@@ -49,10 +49,10 @@ int main(int argc,char** argv){
             continue;
         }
         while(1){
-            time(&rawtime);
-            ptminfo = localtime(&rawtime);    
             n = recv(connfd,buff,MAXLINE,0);
             buff[n] = '\0';//no '\0' at the end of buff,we need to add it manually
+            time(&rawtime);
+            ptminfo = localtime(&rawtime);
             std::cout<<ptminfo->tm_year + 1900<<"/"<<ptminfo->tm_mon + 1<<"/"<<ptminfo->tm_mday<<" "<<ptminfo->tm_hour<<":"<<ptminfo->tm_min<<":"<<ptminfo->tm_sec<<":"<<buff<<"\n";
             //std::cout<<buff<<"\n";
         }
