@@ -12,10 +12,10 @@
 #include<stdlib.h>
 #include<poll.h>
 #include<libgen.h>
-#define USER_LIMIT 5/*最大用户数量*/
-#define BUFFER_SIZE 64/*读缓冲区的大小*/
-#define FD_LIMIT 65535/*文件描述符数量限制*/
-/*客户数据：客户端socket地址、待写到客户端的数据的位置、从客户端读入的数据*/
+#define USER_LIMIT 5//最大用户数量
+#define BUFFER_SIZE 64//读缓冲区的大小
+#define FD_LIMIT 65535//文件描述符数量限制
+//客户数据：客户端socket地址、待写到客户端的数据的位置、从客户端读入的数据
 struct client_data
 {
 	sockaddr_in address;
@@ -35,7 +35,7 @@ int main(int argc,char*argv[])
 {
 	if(argc<=2)
 	{
-		printf("usage:%s ip_address port_number\n",basename(argv[0]));
+		printf("usage:%s ip_address port_number(listen address)\n",basename(argv[0]));
 		return 1;
 	}
 	//初始化赋值
@@ -90,6 +90,7 @@ int main(int argc,char*argv[])
 			printf("poll failure\n");
 			break;
 		}
+		//遍历fds表,共user_counter+1项
 		for(int i=0;i<user_counter+1;++i)
 		{
 			//有连接请求
@@ -188,9 +189,11 @@ int main(int argc,char*argv[])
 					}
 				}
 			}
+			//把消息推送给客户端
 			else if(fds[i].revents&POLLOUT)
 			{
 				int connfd=fds[i].fd;
+				//write_buf为空则跳动
 				if(!users[connfd].write_buf)
 				{
 					continue;
